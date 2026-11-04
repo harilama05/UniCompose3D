@@ -1,6 +1,6 @@
 # Third-party notices
 
-The root [MIT license](LICENSE) covers original UniCompose3D code. Bundled libraries, downloaded models, and external services retain their own terms.
+Bundled libraries, downloaded models, and external services retain their own terms.
 
 - **Three.js 0.180.0** — MIT. [Source](https://github.com/mrdoob/three.js); bundled license: `unicompose3d/static/vendor/LICENSE-THREE.txt`.
 - **Draco** — Apache-2.0. [Source](https://github.com/google/draco); bundled decoder notices: `unicompose3d/static/vendor/LICENSE-DRACO.txt`.
@@ -10,4 +10,4 @@ The root [MIT license](LICENSE) covers original UniCompose3D code. Bundled libra
 - **Python dependencies** retain their upstream licenses and are installed from their registries.
 - **OpenAI** supplies the primary Luna LLM API. The optional Gemini adapter uses Google services. Both require user credentials and remain subject to provider terms; startup makes no paid calls.
 
-Demo renders illustrate application behavior. Source object designs and likenesses are not relicensed by the software license.
+Demo renders illustrate application behavior; rights to the original object designs and likenesses remain with their respective owners.

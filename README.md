@@ -51,4 +51,4 @@ Read [architecture](docs/architecture.md) and [evaluation and limitations](docs/
 
 The pipeline uses reusable geometric relations rather than object-category rules. “Universal” describes the design goal, not guaranteed success for every object. Single-image reconstruction infers unseen surfaces; fitting is visual, not physical sizing or cloth simulation.
 
-Original code: [MIT](LICENSE). Model weights, bundled browser libraries, and external services retain their [upstream terms](THIRD_PARTY.md).
+Third-party libraries, models, and external services retain their [upstream terms](THIRD_PARTY.md).
