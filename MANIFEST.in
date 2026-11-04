@@ -1,0 +1,11 @@
+include README.md LICENSE THIRD_PARTY.md requirements.txt .env.example
+recursive-include unicompose3d/static *
+recursive-include tools *.py
+recursive-include docs *.md *.png
+recursive-include notebooks *.ipynb
+recursive-include benchmarks *.json
+recursive-include tests *.py
+prune data
+prune test-results
+prune dist
+global-exclude __pycache__ *.py[cod] *.log

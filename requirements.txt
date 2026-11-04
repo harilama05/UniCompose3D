@@ -1,0 +1,14 @@
+fastapi==0.116.1
+uvicorn==0.35.0
+python-multipart==0.0.20
+gradio==5.49.1
+trimesh==4.7.4
+numpy>=1.26,<3
+scipy>=1.11,<2
+Pillow>=10.4,<12
+opencv-python-headless==4.11.0.86
+requests>=2.32.3,<3
+httpx>=0.27,<1
+rtree==1.4.1
+psutil>=5.9,<8
+python-dotenv>=1.0,<2

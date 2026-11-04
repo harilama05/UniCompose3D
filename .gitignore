@@ -1,0 +1,40 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# User data, runtime files, and model assets
+data/
+test-results/
+weights/
+models/
+.cache/
+*.log
+*.glb
+*.gltf
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.zip
+
+# Python and build output
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

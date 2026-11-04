@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>UniCompose3D · Studio</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/input.css">
+  <link rel="stylesheet" href="/composition.css">
+  <script type="importmap">{"imports":{"three":"/vendor/three.module.js","three/addons/":"/vendor/addons/"}}</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-symbol">u<span>3</span></span><span>UniCompose<span class="brand-light">3D</span><small>SPATIAL COMPOSITION STUDIO</small></span></a>
+  <div class="steps"><span class="active">01 <b>Object</b></span><i></i><span>02 <b>Compose with AI</b></span><i></i><span>03 <b>Save result</b></span></div>
+  <button id="settingsBtn" class="button subtle">Connections <span id="connectionDot" class="dot"></span></button>
+</header>
+<main class="workspace">
+  <aside class="left-panel panel">
+    <div class="panel-heading"><div><span class="eyebrow">START WITH TWO OBJECTS</span><h1>Try a new composition.</h1></div></div>
+    <p class="intro">Reconstruct your objects, combine them, and explore the result.</p>
+    <section class="object-card" id="cardA">
+      <div class="object-heading"><span class="slot-label a">A</span><div><h2>Base object</h2><p>A person, body part, or any object</p></div><span id="badgeA" class="badge">Not available</span></div>
+      <button class="upload-zone" id="uploadA"><span class="upload-icon">＋</span><strong>Add base object</strong><span>Image · multiple views · video · 3D model</span></button>
+      <div class="asset-summary hidden" id="summaryA"><div class="mini-canvas" id="previewA"></div><div><strong id="nameA"></strong><small id="statsA"></small><p id="geometryNoteA" class="geometry-note hidden"></p><div class="inline-actions"><button data-preview="A">Preview</button><button data-change="A">Replace</button><button data-download="A">GLB ↓</button></div></div></div>
+    </section>
+    <div class="between">＋</div>
+    <section class="object-card" id="cardB">
+      <div class="object-heading"><span class="slot-label b">B</span><div><h2>Object to place</h2><p>The object you want to combine with A</p></div><span id="badgeB" class="badge">Not available</span></div>
+      <button class="upload-zone" id="uploadB"><span class="upload-icon">＋</span><strong>Add object</strong><span>Keep A when replacing B</span></button>
+      <div class="asset-summary hidden" id="summaryB"><div class="mini-canvas" id="previewB"></div><div><strong id="nameB"></strong><small id="statsB"></small><p id="geometryNoteB" class="geometry-note hidden"></p><div class="inline-actions"><button data-preview="B">Preview</button><button data-change="B">Replace</button><button data-download="B">GLB ↓</button></div></div></div>
+    </section>
+    <section class="compose-box">
+      <label for="instruction">How would you like to combine them? <span>Optional</span></label>
+      <textarea id="instruction" rows="2" placeholder="Example: put the hat on the head, place the vase on the table…" maxlength="1500"></textarea>
+      <details class="simple-advanced"><summary>More settings</summary><div class="composition-options hidden"><label>Mode<select id="composeMode"><option value="agent">AI agent · compose and review</option><option value="geometry">Geometry · one proposal</option><option value="evaluated">Compare and review images · advanced</option><option value="quick">Single pass · compare</option></select></label><label>Candidates<select id="candidateCount"><option value="3">3</option><option value="4">4</option><option value="5" selected>5</option></select></label></div>
+      <label class="field-label" id="agentRoundsLabel">Agent round limit<select id="agentRounds"><option value="1">1 round</option><option value="2">Up to 2 rounds</option><option value="3" selected>Up to 3 rounds</option></select></label>
+      </details>
+      <button class="button primary full" id="composeBtn" disabled><span>✦</span> Compose with agent</button>
+      <p class="small-note" id="compositionCostNote">Up to 3 agent rounds. Each round proposes, checks, and may refine placement. API usage depends on actual calls; composition does not regenerate the mesh.</p>
+      <p id="compositionStatus" class="small-note hidden"></p><details id="compositionDetails" class="hidden"><summary>Processing details</summary><div id="planInfo" class="plan-info hidden"></div></details>
+      <div id="compositionActions" class="hidden"><button id="candidatesBtn" class="button outline full">View 3D results</button><button id="reportBtn" class="text-button">Download evaluation JSON ↓</button><button id="compositionDiagnostics" class="text-button">Download diagnostics · models and rounds ↓</button><p id="compositionDirty" class="small-note hidden">Manually edited. Scores refer to the candidate before your edits.</p></div>
+    </section>
+    <div class="panel-bottom"><button id="demoBtn" class="button subtle full">Try the free demo ↗</button><div class="bottom-links"><button id="libraryBtn">Library</button><button id="jobsBtn">Generation progress</button><button id="helpBtn">Help</button></div></div>
+  </aside>
+  <section class="viewport-panel">
+    <div class="viewport-top"><div><span class="eyebrow">YOUR WORKSPACE</span><h2>Composition scene <span class="live-label"><i></i> Interactive 3D</span></h2></div><button id="frameBtn" class="button subtle">⌖ Fit view</button></div>
+    <div id="viewport"><div id="emptyState" class="empty-state"><div class="empty-cube"><span></span></div><span class="eyebrow">TWO OBJECTS. A NEW PERSPECTIVE.</span><h2>Explore the combination<br>from every angle.</h2><p>Add A and B to begin, or open the demo scene.</p><button id="emptyDemoBtn" class="button dark">Explore demo scene ↗</button></div><div id="loadingOverlay" class="loading-overlay hidden"><span class="spinner"></span><span id="loadingText">Loading model…</span></div><div id="viewerLabel" class="viewer-label hidden">Viewing: both objects</div><div class="view-switch"><button data-view="all" class="selected">A + B</button><button data-view="A">A only</button><button data-view="B">B only</button></div><div class="view-controls"><button data-camera="front">Front</button><button data-camera="side">Side</button><button data-camera="top">Top</button><button id="gridBtn" class="selected">Grid</button><button id="rotateBtn">Auto-rotate</button></div></div>
+    <div class="viewport-footer"><span><i class="status-dot"></i><span id="sceneStatus">Ready to create your scene</span></span><span>Drag to orbit · Scroll to zoom · Right-drag to pan</span></div>
+  </section>
+  <aside class="right-panel panel">
+    <div class="inspector-head"><span class="eyebrow">ADJUST IT YOUR WAY</span><h2>Adjust the scene</h2></div>
+    <div class="segmented"><button data-select="A">A · Base</button><button data-select="B" class="selected">B · Object</button></div>
+    <div class="tool-modes"><button data-mode="translate" class="selected" title="Move (W)">↔ <span>Move</span></button><button data-mode="rotate" title="Rotate (E)">⟳ <span>Rotate</span></button><button data-mode="scale" title="Scale (R)">⤢ <span>Scale</span></button></div>
+    <div id="transformFields"></div>
+    <button id="resetBtn" class="text-button">↺ Reset selected object</button>
+    <details class="inspector-section" open><summary>Placement regions and directions · optional</summary><p>AI selects geometric features and tools. To guide it, select a region or direction on A or B, then run composition again.</p><button id="pickABtn" class="button outline full">Pick point on A</button><button id="pickBBtn" class="button outline full">Pick point on B</button><div class="inline-actions"><button id="axisABtn" class="button outline">Direction on A</button><button id="axisBBtn" class="button outline">Direction on B</button></div><div id="anchorStatus" class="small-note">No anchor selected.</div><div id="hintStatus" class="small-note">Direction: inferred by AI.</div><button id="clearHintsBtn" class="text-button">Clear selected regions and directions</button><button id="alignBtn" class="button dark full" disabled>Align two points</button></details>
+    <details class="inspector-section"><summary>Reshape object B</summary><p>Apply a soft deformation around a point on B for visual adjustments.</p><button id="sculptPickBtn" class="button outline full">Select region on B</button><label>Influence radius<input id="sculptRadius" type="range" min="0.03" max="1" value="0.25" step="0.01"></label><div class="xyz-inputs"><label>X<input id="sculptX" type="number" value="0" step="0.01" min="-1" max="1"></label><label>Y<input id="sculptY" type="number" value="0.05" step="0.01" min="-1" max="1"></label><label>Z<input id="sculptZ" type="number" value="0" step="0.01" min="-1" max="1"></label></div><button id="sculptBtn" class="button outline full" disabled>Apply deformation</button><button id="sculptUndoBtn" class="text-button" disabled>↶ Undo deformation</button></details>
+    <div class="save-section"><input id="sceneTitle" aria-label="Scene name" placeholder="Name this composition" maxlength="100"><button id="saveBtn" class="button outline full" disabled>Save scene to library</button><button id="exportBtn" class="button dark full" disabled>Export 3D scene <span>↓ GLB</span></button><div class="bottom-links"><button id="projectExportBtn">Download project ZIP</button><button id="projectImportBtn">Open project</button></div><input id="projectFile" type="file" accept=".zip" hidden></div>
+    <p class="disclaimer">Explore visual combinations. Scale is relative and cannot confirm physical fit or size.</p>
+  </aside>
+</main>
+<div id="toast" role="status" class="toast hidden"></div>
+<dialog id="candidatesDialog" class="modal candidates-modal"><div class="modal-title"><div><span class="eyebrow">COMPARE THE SAME CAMERA VIEWS</span><h2>Composition candidates</h2></div><button data-close class="close" aria-label="Close">×</button></div><p id="evaluationSummary"></p><div id="evaluationWarnings" class="evaluation-warnings hidden"></div><p class="small-note">Each image contains four views: front, side, back, and oblique. Scores compare candidates; they are not probabilities or physical fit guarantees.</p><div id="candidateGrid" class="candidate-grid"></div><p id="baselineComparison" class="small-note"></p><button id="dialogReportBtn" class="button outline">Download evaluation JSON ↓</button></dialog>
+<dialog id="uploadDialog" class="modal upload-modal"><div class="modal-title"><div><span class="eyebrow" id="uploadEyebrow">OBJECT A</span><h2>Bring an object into 3D</h2></div><button data-close class="close" aria-label="Close">×</button></div><div class="input-tabs"><button data-kind="image" class="selected">Single image</button><button data-kind="multiview">Multiple views</button><button data-kind="video">Video</button><button data-kind="model">3D model</button></div><label class="field-label">Object name<input id="objectName" placeholder="Example: my desk" maxlength="100"></label><label class="file-drop"><input id="sourceFiles" type="file" accept="image/png,image/jpeg,image/webp"><strong id="filePrompt">Choose clear images of the object</strong><span id="fileHint">PNG, JPG, WEBP · up to 20 MB</span></label><button id="prepareBtn" class="button dark full">Prepare input</button><div id="sourceStatus" class="source-status"></div><div id="viewPicker" class="hidden"><p class="small-note">Select images of the same object and check each segmentation.</p><div id="sourceGallery" class="source-gallery"></div><details id="advancedViewAssignments"><summary>Camera view for each image</summary><p class="small-note">Assign the correct camera view for up to four images.</p><div id="viewAssignments" class="view-assignments"></div></details></div><div id="paidSection" class="paid-section hidden"><div><strong>Create a 3D model</strong><span>Hunyuan3D · runs on the Kaggle GPU</span></div><label class="check-row"><input id="forceNew" type="checkbox">Regenerate instead of using the cached result.</label><button id="generateBtn" class="button primary full" disabled>Create 3D model</button></div><div id="jobProgress" class="hidden"><progress id="jobBar" max="100" value="0"></progress><p id="jobMessage"></p><code id="jobTaskId"></code></div></dialog>
+<dialog id="reconstructionReview" class="modal reconstruction-review">
+  <div class="modal-title"><div><span class="eyebrow">CHECK THE SHAPE BEFORE USING IT</span><h2 id="reviewTitle">Interactive 3D preview</h2></div><button data-close class="close" aria-label="Close preview">×</button></div>
+  <p id="reviewMeta" class="small-note"></p>
+  <div id="reconstructionViewport" aria-label="Interactive 3D model preview"></div>
+  <div class="inline-actions review-cameras"><button data-review-view="front">Front</button><button data-review-view="side">Side</button><button data-review-view="back">Back</button><button data-review-view="top">Top</button></div>
+  <p class="small-note">Rotate to inspect shape, unseen surfaces, holes, and details. A valid GLB does not prove reconstruction accuracy. Your current A/B scene stays until you choose to use this model.</p>
+  <label class="field-label">Variants of this object<select id="reviewHistory"></select></label>
+  <p id="reviewStatus" role="status"></p>
+  <div class="review-actions"><button id="reviewAccept" class="button primary">Use this model</button><button id="reviewRetry" hidden class="button outline">Create another variant</button><button id="reviewDiagnostics" class="button outline">Diagnostics ZIP ↓</button><button id="reviewDownload" class="button outline">GLB ↓</button><button id="reviewKeepScene" class="button subtle">Keep current scene</button></div>
+</dialog>
+<dialog id="libraryDialog" class="modal"><div class="modal-title"><div><span class="eyebrow">SAVED ASSETS</span><h2>Your library</h2></div><button data-close class="close">×</button></div><h3>3D models</h3><div id="assetList" class="library-list"></div><h3>Saved scenes</h3><div id="sceneList" class="library-list"></div></dialog>
+<dialog id="jobsDialog" class="modal"><div class="modal-title"><div><span class="eyebrow">RECONNECT WITHOUT REGENERATING</span><h2>3D generation progress</h2></div><button data-close class="close">×</button></div><div id="jobList" class="library-list"></div></dialog>
+<dialog id="settingsDialog" class="modal"><div class="modal-title"><div><span class="eyebrow">SERVICE CONNECTIONS</span><h2>Session settings</h2></div><button data-close class="close">×</button></div><div id="connectionInfo"></div><p>API keys are read from the Python environment or Kaggle Secrets and never sent to the browser. To change keys or models, update the notebook configuration and restart.</p><label>Session access token (if the link is incomplete)<input id="accessTokenInput" type="password" autocomplete="off"></label><button id="accessTokenBtn" class="button dark">Reconnect</button></dialog>
+<dialog id="helpDialog" class="modal"><div class="modal-title"><h2>Get started in a few steps</h2><button data-close class="close">×</button></div><ol class="help-list"><li>Add base object A and object B using images or existing 3D models.</li><li>Remove the background, check the complete object, then create the 3D model. Assign camera views when using multiple images.</li><li>Enter a short request and click Compose. AI asks for clarification when your intent is ambiguous.</li><li>Use Move, Rotate, and Scale. Press W/E/R to switch tools.</li><li>Save a project ZIP to reopen it later, or export GLB.</li></ol><p>Server-side scenes last only as long as the Kaggle data. Download your project ZIP before ending the session.</p><p>Unseen surfaces may be inferred by AI. Automatic composition and soft deformation are for visualization; natural results are not guaranteed for every object pair.</p></dialog>
+<script type="module" src="/app.js"></script>
+</body></html>
+
+
+
+

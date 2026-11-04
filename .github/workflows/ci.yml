@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install CPU test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-dev.txt
+      - name: Unit and integration tests (offline providers)
+        run: python -m unittest discover -s tests
+      - name: Deterministic geometry benchmark
+        run: |
+          python tools/benchmark_composition.py --output test-results/composition.json
+          python -c "import json; r=json.load(open('test-results/composition.json')); assert r['passed']==r['total'], r"
+      - name: Validate release and packaging
+        run: |
+          python tools/build_bundle.py
+          python -m build
+      - name: Browser integration (fixture GPU and LLM)
+        run: |
+          python -m playwright install --with-deps chromium
+          python tools/full_pipeline_browser_smoke.py
+          python tools/diagnostic_browser_smoke.py
