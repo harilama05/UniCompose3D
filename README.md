@@ -16,19 +16,7 @@ Turn images into editable 3D objects, then combine them with a short natural-lan
 
 ### Pipeline
 
-```mermaid
-flowchart LR
-    A[Images / video] --> B[SAM segmentation]
-    B --> C[Hunyuan3D reconstruction]
-    D[Existing 3D models] --> E[Canonical scene + measured geometry]
-    C --> E
-    P[User request] --> F[Luna: intent + spatial program]
-    E --> F
-    F --> G[Multi-hypothesis search + geometry solver]
-    G --> H[Multi-view render + visual review]
-    H -->|Refine within budget| F
-    H --> I[Interactive editor + GLB / project export]
-```
+![UniCompose3D reconstruction and composition pipeline](docs/assets/pipeline.svg)
 
 ### Run
 
@@ -41,7 +29,7 @@ cp .env.example .env
 python launch.py
 ```
 
-Set `OPENAI_API_KEY` in `.env` for AI composition. Open the complete session link printed by the launcher. The procedural demo and manual editor work without an API key; reconstruction requires the GPU setup.
+Set `OPENAI_API_KEY` in `.env` for AI composition. Prompts can be entered in Vietnamese or English; the interface and AI explanations are currently in English. Open the complete session link printed by the launcher. The procedural demo and manual editor work without an API key; reconstruction requires the GPU setup.
 
 **Kaggle T4:** follow [the setup guide](docs/kaggle.md) and import [the launcher notebook](notebooks/UniCompose3D_Kaggle.ipynb).
 

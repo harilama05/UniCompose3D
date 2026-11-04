@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="548" viewBox="0 0 1120 548" role="img" aria-labelledby="title description">
+<title id="title">UniCompose3D pipeline</title>
+<desc id="description">Images and video pass through SAM and Hunyuan3D, or users import existing 3D models. Measured geometry and a natural-language request guide Luna, spatial search, geometric checks, and multi-view review. The agent refines candidates within a budget and exports an editable 3D scene.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#e26d43"/></marker></defs>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#242a2b}.title{font-size:18px;font-weight:700}.note{font-size:14px;fill:#59645e}.section{font-size:12px;font-weight:700;letter-spacing:1.5px;fill:#68756d}.edge{fill:none;stroke:#89978d;stroke-width:2;marker-end:url(#arrow)}.feedback{fill:none;stroke:#e26d43;stroke-width:2;stroke-dasharray:6 5;marker-end:url(#arrow)}</style>
+<rect width="1120" height="548" rx="18" fill="#f5f4ef"/>
+<text x="24" y="29" class="section">PREPARE REUSABLE OBJECTS</text>
+<g><rect x="24" y="48" width="240" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="42" y="78" class="title">Images / video</text><text x="42" y="101" class="note">Select views of the same object</text></g>
+<g><rect x="296" y="48" width="240" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="314" y="78" class="title">SAM segmentation</text><text x="314" y="101" class="note">Keep the intended object</text><text x="314" y="119" class="note">Refine masks and openings</text></g>
+<g><rect x="568" y="48" width="240" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="586" y="78" class="title">Hunyuan3D</text><text x="586" y="101" class="note">Reconstruct mesh and texture</text></g>
+<g><rect x="840" y="48" width="256" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="858" y="78" class="title">3D assets + geometry</text><text x="858" y="101" class="note">Canonical views and landmarks</text></g>
+<path class="edge" d="M264 92H296"/><path class="edge" d="M536 92H568"/><path class="edge" d="M808 92H840"/>
+<path class="edge" d="M1030 180V139"/><text x="806" y="172" class="note">Or import existing 3D models</text>
+<path class="edge" d="M1096 92H1108V201H416V248"/><text x="536" y="192" class="note">Measured geometry + canonical views</text>
+<text x="24" y="228" class="section">COMPOSE FROM USER INTENT</text>
+<g><rect x="24" y="250" width="240" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="42" y="280" class="title">User request</text><text x="42" y="303" class="note">A short natural-language prompt</text></g>
+<g><rect x="296" y="250" width="240" height="88" rx="14" fill="#fff2e9" stroke="#e26d43"/><text x="314" y="280" class="title">Luna agent</text><text x="314" y="303" class="note">Preserve the original goal</text><text x="314" y="321" class="note">Ask for clarification if needed</text></g>
+<g><rect x="568" y="250" width="240" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="586" y="280" class="title">Spatial search</text><text x="586" y="303" class="note">Optimize pose and relative scale</text><text x="586" y="321" class="note">Check geometric constraints</text></g>
+<g><rect x="840" y="250" width="256" height="88" rx="14" fill="#fffefa" stroke="#d7ddd6"/><text x="858" y="280" class="title">Render + review</text><text x="858" y="303" class="note">Inspect multiple views</text><text x="858" y="321" class="note">Evaluate the original request</text></g>
+<path class="edge" d="M264 294H296"/><path class="edge" d="M536 294H568"/><path class="edge" d="M808 294H840"/>
+<path class="feedback" d="M912 338V382H416V340"/><text x="565" y="374" class="note">Refine within the search budget</text>
+<path class="edge" d="M1024 338V430"/>
+<g><rect x="840" y="432" width="256" height="88" rx="14" fill="#fff2e9" stroke="#e26d43"/><text x="858" y="462" class="title">Interactive 3D scene</text><text x="858" y="485" class="note">Inspect and adjust placement</text><text x="858" y="503" class="note">Export GLB or project ZIP</text></g>
+<text x="24" y="470" class="note">Geometry and visual review remain separate checks.</text>
+<text x="24" y="493" class="note">Failed proposals remain reviewable; acceptance requires the configured checks.</text>
+</svg>

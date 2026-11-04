@@ -1,7 +1,7 @@
 include README.md LICENSE THIRD_PARTY.md requirements.txt .env.example
 recursive-include unicompose3d/static *
 recursive-include tools *.py
-recursive-include docs *.md *.png
+recursive-include docs *.md *.png *.svg
 recursive-include notebooks *.ipynb
 recursive-include benchmarks *.json
 recursive-include tests *.py
