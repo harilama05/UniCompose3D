@@ -1,6 +1,7 @@
 -r requirements.txt
 nbformat>=5.10,<6
 jsonschema>=4.23,<5
+scikit-image>=0.25,<0.26
 transformers==4.48.3
 diffusers==0.32.2
 accelerate==1.3.0
